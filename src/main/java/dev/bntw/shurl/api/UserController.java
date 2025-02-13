@@ -1,5 +1,6 @@
 package dev.bntw.shurl.api;
 
+import dev.bntw.shurl.api.response.Message;
 import dev.bntw.shurl.dto.UserRegisterDTO;
 import dev.bntw.shurl.exception.user.EmailOrUsernameAlreadyExist;
 import dev.bntw.shurl.services.UserService;
@@ -8,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("${shuri.api-prefix}/user")
 public class UserController {
 
     private final UserService userService;
@@ -17,10 +19,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("${shuri.api-prefix}/register")
-    public String register(@RequestBody UserRegisterDTO register) throws EmailOrUsernameAlreadyExist {
+    @PostMapping("/register")
+    public Message register(@RequestBody UserRegisterDTO register) throws EmailOrUsernameAlreadyExist {
         userService.registerUser(register);
-        return "User registered";
+        return new Message("User registered successfully");
     }
 
 }
