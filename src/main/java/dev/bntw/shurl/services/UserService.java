@@ -7,8 +7,9 @@ import dev.bntw.shurl.exception.UserNameExist;
 import dev.bntw.shurl.persistence.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import dev.bntw.shurl.persistence.entity.User;
 
@@ -17,10 +18,12 @@ import dev.bntw.shurl.persistence.entity.User;
 public class UserService {
 
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -32,12 +35,10 @@ public class UserService {
             throw new EmailExist("email");
         }
 
-        var user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getPassword(), userRegisterDTO.getEmail());
+        var hashPassword = passwordEncoder.encode(userRegisterDTO.getPassword());
+
+        var user = new User(userRegisterDTO.getUsername(), hashPassword, userRegisterDTO.getEmail());
         userRepository.save(user);
-    }
-
-    public boolean allowLogin(String usernameOrEmail, String password) {
-
     }
 
 }
