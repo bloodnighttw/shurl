@@ -16,15 +16,15 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(nullable = false, name = "password")
+    private String hashPassword;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    public User(String username, String password, String email) {
+    public User(String username, String hashPassword, String email) {
         this.username = username;
-        this.password = password;
+        this.hashPassword = hashPassword;
         this.email = email;
     }
 

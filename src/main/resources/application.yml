@@ -14,3 +14,9 @@ spring:
         format_sql: true
 
     database: postgresql
+  security:
+    user:
+      password: ${SECURITY_PASSWORD}
+
+shuri:
+  api-prefix: api
