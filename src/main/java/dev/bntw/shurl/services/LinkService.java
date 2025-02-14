@@ -22,7 +22,7 @@ public class LinkService {
         this.linkRepository = linkRepository;
     }
 
-    public void createLink(String url){
+    public String createLink(String url){
 
         while(true){
             var alias = generateAlias();
@@ -32,18 +32,21 @@ public class LinkService {
 
             try {
                 linkRepository.save(new Link(alias, url));
-                return;
+                return alias;
             } catch (DataIntegrityViolationException e){
                 // alias already exists
             }
         }
     }
 
+    public Link getLink(String alias){
+        return linkRepository.findByAlias(alias);
+    }
 
     private String generateAlias(){
         var sb = new StringBuilder(ALIAS_LENGTH);
         for(int i = 0; i < ALIAS_LENGTH; i++){
-            sb.append((char) (Math.random() * 52 + 'a'));
+            sb.append((char) (Math.random() * 26 + 'a'));
         }
         return sb.toString();
     }

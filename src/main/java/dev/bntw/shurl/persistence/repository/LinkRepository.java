@@ -7,4 +7,6 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
 
      boolean existsByAlias(String alias);
 
+     Link findByAlias(String alias);
+
 }
