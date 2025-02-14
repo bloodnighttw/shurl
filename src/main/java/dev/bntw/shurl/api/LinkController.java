@@ -20,7 +20,7 @@ public class LinkController {
         this.linkService = linkService;
     }
 
-    @PostMapping("/${shuri.api-prefix}/link/create")
+    @PostMapping("/create")
     public LinkResponse createLink(@RequestBody LinkRequest linkRequest){
         var alias = linkService.createLink(linkRequest.url());
         return new LinkResponse(alias);
