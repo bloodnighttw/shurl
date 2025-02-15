@@ -1,7 +1,5 @@
 package dev.bntw.shurl.api;
 
-import dev.bntw.shurl.api.request.link.LinkRequest;
-import dev.bntw.shurl.api.response.LinkResponse;
 import dev.bntw.shurl.services.LinkService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
