@@ -13,7 +13,6 @@ import java.io.IOException;
 @RestController
 public class LinkRedirectController {
 
-
     private final LinkService linkService;
 
     @Autowired
@@ -21,15 +20,17 @@ public class LinkRedirectController {
         this.linkService = linkService;
     }
 
-
     @GetMapping("/{id}")
     @Transactional
     public void redirect(HttpServletResponse response, @PathVariable String id) throws IOException {
 
         var link = linkService.getLink(id);
+        if (link == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
         response.sendRedirect(link.getUrl());
-
     }
-
 
 }
