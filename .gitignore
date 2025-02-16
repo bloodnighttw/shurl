@@ -62,4 +62,8 @@ src/main/resources/frontend-generated/
 *.njsproj
 *.sln
 *.sw?
+/
+
+# Local environment
+src/main/resources/application-local.yml
 

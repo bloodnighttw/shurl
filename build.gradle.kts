@@ -48,3 +48,15 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+task<Exec>("frontendCheck") {
+    commandLine("pnpm", "--version")
+}
+
+task<Exec>("frontendBuild") {
+    commandLine("pnpm", "run", "build")
+}
+
+task<Exec>("frontendInstall") {
+    commandLine("pnpm", "install")
+}
