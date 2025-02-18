@@ -54,9 +54,25 @@ task<Exec>("frontendCheck") {
 }
 
 task<Exec>("frontendBuild") {
-    commandLine("pnpm", "run", "build")
+    commandLine("pnpm", "build")
+}
+
+task<Exec>("frontendWatch"){
+    commandLine("pnpm", "watch")
+}
+
+task<Exec>("frontendClean") {
+    commandLine("pnpm", "clean")
 }
 
 task<Exec>("frontendInstall") {
     commandLine("pnpm", "install")
+}
+
+tasks.named("build") {
+    dependsOn("frontendBuild")
+}
+
+tasks.named("clean") {
+    dependsOn("frontendClean")
 }
