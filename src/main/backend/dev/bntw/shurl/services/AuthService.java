@@ -46,9 +46,7 @@ public class AuthService implements UserDetailsService {
             throw new BadCredentialsException("Username or email not found");
         }
 
-        var encodedPassword = user.getHashPassword();
-
-        if(passwordEncoder.matches(user.getHashPassword(), password)) {
+        if(!passwordEncoder.matches(password,user.getHashPassword())) {
             throw new BadCredentialsException("Invalid password");
         }
 
