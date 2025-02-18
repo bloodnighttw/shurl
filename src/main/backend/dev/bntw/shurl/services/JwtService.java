@@ -1,4 +1,5 @@
 package dev.bntw.shurl.services;
+import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.utils.MemberDetail;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -23,7 +24,7 @@ public class JwtService {
         this.validSeconds = validSeconds;
     }
 
-    public String createToken(MemberDetail userDetails) {
+    public String createToken(User userDetails) {
 
         long expireMillis = Instant.now()
                 .plusSeconds(validSeconds)
@@ -34,7 +35,6 @@ public class JwtService {
                 .expiration(new Date(expireMillis))
                 .add("username", userDetails.getUsername())
                 .add("email", userDetails.getEmail())
-                .add("authorities", userDetails.getAuthorities())
                 .build();
 
         return Jwts.builder()
