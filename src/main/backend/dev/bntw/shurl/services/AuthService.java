@@ -3,13 +3,10 @@ package dev.bntw.shurl.services;
 import dev.bntw.shurl.persistence.repository.UserRepository;
 import dev.bntw.shurl.utils.MemberDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
