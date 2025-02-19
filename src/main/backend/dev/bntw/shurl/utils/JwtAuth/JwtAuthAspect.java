@@ -28,7 +28,7 @@ public class JwtAuthAspect{
         this.jwtService = jwtService;
     }
 
-    @Before("@annotation(dev.bntw.shurl.utils.JwtAuth.Auth)")
+    @Before("@annotation(dev.bntw.shurl.utils.JwtAuth.JwtAuth)")
     protected void auth() throws InvalidTokenException{
 
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
