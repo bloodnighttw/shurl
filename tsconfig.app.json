@@ -21,8 +21,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
-    "baseUrl": "./src/main/frontend"
+    "paths": {
+      "@/*": ["src/main/frontend/*"]
+    }
   },
   "include": ["src/main/frontend", "src/main/resources/assets"],
 }
