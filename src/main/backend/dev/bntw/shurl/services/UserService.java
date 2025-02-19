@@ -25,7 +25,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Transactional
     public void registerUser(UserRegisterDTO userRegisterDTO) throws EmailOrUsernameAlreadyExist {
         var hashPassword = passwordEncoder.encode(userRegisterDTO.getPassword());
         try {
