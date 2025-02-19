@@ -3,12 +3,17 @@ package dev.bntw.shurl.persistence.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "USERS")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,6 +31,21 @@ public class User {
         this.username = username;
         this.hashPassword = hashPassword;
         this.email = email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return hashPassword;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     // TODO: ADD PERMISSIONS
