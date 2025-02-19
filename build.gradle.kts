@@ -59,15 +59,11 @@ task<Exec>("frontendCheck") {
 }
 
 task<Exec>("frontendBuild") {
-    commandLine("pnpm", "build")
+    commandLine("pnpm", "frontend:build")
 }
 
 task<Exec>("frontendWatch"){
-    commandLine("pnpm", "watch")
-}
-
-task<Exec>("frontendClean") {
-    commandLine("pnpm", "clean")
+    commandLine("pnpm", "frontend:watch")
 }
 
 task<Exec>("frontendInstall") {
@@ -78,6 +74,22 @@ tasks.named("build") {
     dependsOn("frontendBuild")
 }
 
-tasks.named("clean") {
-    dependsOn("frontendClean")
+tasks.bootRun {
+    args("--spring.profiles.active=local")
+}
+
+tasks.register<DefaultTask>("bootRunWithFrontend") {
+    group = "application"
+    description = "Runs the Spring Boot application with frontend watch mode in local profile"
+
+    doFirst {
+        ProcessBuilder("pnpm", "frontend:watch")
+            .inheritIO()
+            .directory(project.projectDir)
+            .start()
+
+        Thread.sleep(200)
+    }
+
+    finalizedBy(tasks.named("bootRun"))
 }

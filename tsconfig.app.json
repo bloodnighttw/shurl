@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/*": ["src/main/frontend/*"]
+      "@/*": ["./src/main/frontend/*"],
     }
   },
   "include": ["src/main/frontend", "src/main/resources/assets"],
