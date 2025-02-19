@@ -4,6 +4,7 @@ import dev.bntw.shurl.api.request.link.LoginRequest;
 import dev.bntw.shurl.api.response.LoginResponse;
 import dev.bntw.shurl.services.AuthService;
 import dev.bntw.shurl.services.JwtService;
+import dev.bntw.shurl.utils.JwtAuth.Auth;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,16 @@ public class AuthController {
     @Transactional
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         var user = authService.login(loginRequest.usernameOrEmail(), loginRequest.password());
+        var token = jwtService.createToken(user);
+        return new LoginResponse(token);
+    }
+
+    @PostMapping("/refresh")
+    @Auth
+    public LoginResponse refresh() {
+
+        var user = AuthService.getAuthenticatedUser();
+
         var token = jwtService.createToken(user);
         return new LoginResponse(token);
     }
