@@ -47,7 +47,6 @@ public class JwtService {
                 .issuedAt(new Date())
                 .expiration(new Date(expireMillis))
                 .add("username", userDetails.getUsername())
-                .add("password", userDetails.getHashPassword())
                 .add("email", userDetails.getEmail())
                 .build();
 
@@ -66,10 +65,9 @@ public class JwtService {
         }
 
         var username = claims.get("username", String.class);
-        var password = claims.get("password", String.class);
         var email = claims.get("email", String.class);
 
-        var user = userRepository.findByUsernameAndEmailAndHashPassword(username, email, password);
+        var user = userRepository.findUserByUsernameAndEmail(username, email);
 
         if(user != null) {
             return user;
