@@ -4,7 +4,6 @@ package dev.bntw.shurl.services;
 import dev.bntw.shurl.dto.UserRegisterDTO;
 import dev.bntw.shurl.exception.user.EmailOrUsernameAlreadyExist;
 import dev.bntw.shurl.persistence.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
