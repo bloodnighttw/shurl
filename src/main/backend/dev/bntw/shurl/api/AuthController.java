@@ -2,6 +2,7 @@ package dev.bntw.shurl.api;
 
 import dev.bntw.shurl.api.request.link.LoginRequest;
 import dev.bntw.shurl.api.response.LoginResponse;
+import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.services.AuthService;
 import dev.bntw.shurl.services.JwtService;
 import dev.bntw.shurl.utils.JwtAuth.Auth;
@@ -36,9 +37,7 @@ public class AuthController {
 
     @PostMapping("/refresh")
     @Auth
-    public LoginResponse refresh() {
-
-        var user = AuthService.getAuthenticatedUser();
+    public LoginResponse refresh(User user) {
 
         var token = jwtService.createToken(user);
         return new LoginResponse(token);
