@@ -30,4 +30,9 @@ public class RootController {
         return "redirect:" + link.getUrl();
     }
 
+    @RequestMapping("/")
+    public String index() {
+        return "forward:/index.html";
+    }
+
 }
