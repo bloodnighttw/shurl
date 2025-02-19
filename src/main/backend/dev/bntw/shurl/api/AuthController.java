@@ -27,7 +27,7 @@ public class AuthController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     @Transactional
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         var user = authService.login(loginRequest.usernameOrEmail(), loginRequest.password());
