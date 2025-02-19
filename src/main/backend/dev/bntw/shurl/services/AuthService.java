@@ -2,7 +2,6 @@ package dev.bntw.shurl.services;
 
 import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.persistence.repository.UserRepository;
-import dev.bntw.shurl.utils.MemberDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +32,7 @@ public class AuthService implements UserDetailsService {
             throw new UsernameNotFoundException("User with username " + username +" not found");
         }
 
-        return new MemberDetail(user);
+        return user;
     }
 
     public User login(String usernameOrEmail, String password) {
