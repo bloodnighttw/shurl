@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("")
     public Message register(@RequestBody UserRegisterDTO register) throws EmailOrUsernameAlreadyExist {
         userService.registerUser(register);
         return new Message("User registered successfully");
