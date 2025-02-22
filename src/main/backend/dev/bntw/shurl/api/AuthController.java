@@ -5,7 +5,7 @@ import dev.bntw.shurl.api.response.LoginResponse;
 import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.services.AuthService;
 import dev.bntw.shurl.services.JwtService;
-import dev.bntw.shurl.utils.JwtAuth.JwtAuth;
+import dev.bntw.shurl.utils.JwtAuth.RequiredJwtAuth;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    @JwtAuth
+    @RequiredJwtAuth
     public LoginResponse refresh(User user) {
 
         var token = jwtService.createToken(user);
