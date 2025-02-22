@@ -2,6 +2,7 @@ package dev.bntw.shurl.utils.JwtAuth;
 
 import dev.bntw.shurl.persistence.entity.User;
 import jakarta.annotation.Nullable;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class OptionalAuthMethodArgumentResolver implements HandlerMethodArgument
 
     @Override
     @Nullable
-    public User resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public User resolveArgument(@NonNull MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         if(webRequest.getHeader("Authorization") == null){
             return null;
         }
