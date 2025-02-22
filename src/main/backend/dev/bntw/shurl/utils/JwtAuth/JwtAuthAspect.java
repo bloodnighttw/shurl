@@ -53,4 +53,14 @@ public class JwtAuthAspect{
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
     }
+
+    @Before("@annotation(dev.bntw.shurl.utils.JwtAuth.OptionalJwtAuth)")
+    protected void optionalAuth(){
+        try {
+            this.auth();
+        } catch (InvalidTokenException e) {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
 }
