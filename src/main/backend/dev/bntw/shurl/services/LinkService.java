@@ -5,12 +5,13 @@ import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.persistence.repository.LinkRepository;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class LinkService {
 
     private final LinkRepository linkRepository;
@@ -25,20 +26,17 @@ public class LinkService {
 
     @Transactional
     public String createLink(String url, @Nullable User user){
-
-        while(true){
+        do{
             var alias = generateAlias();
 
-            if(linkRepository.existsByAlias(alias))
+            if(linkRepository.existsByAlias(alias)) {
+                log.warn("Alias {} already exists, regenerating......", alias);
                 continue;
-
-            try {
-                linkRepository.save(new Link(alias, url, user));
-                return alias;
-            } catch (DataIntegrityViolationException e){
-                // alias already exists
             }
-        }
+
+            linkRepository.save(new Link(alias, url, user));
+            return alias;
+        }while (true);
     }
 
     public Link getLink(String alias){
