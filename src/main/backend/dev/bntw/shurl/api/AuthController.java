@@ -36,9 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    @RequiredJwtAuth
-    public LoginResponse refresh(User user) {
-
+    public LoginResponse refresh(@RequiredJwtAuth User user) {
         var token = jwtService.createToken(user);
         return new LoginResponse(token);
     }

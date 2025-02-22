@@ -23,8 +23,7 @@ public class LinkController {
     }
 
     @PostMapping("/create")
-    @OptionalJwtAuth
-    public LinkResponse createLink(@RequestBody LinkRequest linkRequest, User user){
+    public LinkResponse createLink(@OptionalJwtAuth User user, @RequestBody LinkRequest linkRequest){
         var alias = linkService.createLink(linkRequest.url(),user);
         return new LinkResponse(alias);
     }
