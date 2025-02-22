@@ -1,7 +1,9 @@
 package dev.bntw.shurl.services;
 
 import dev.bntw.shurl.persistence.entity.Link;
+import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.persistence.repository.LinkRepository;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 public class LinkService {
 
     private final LinkRepository linkRepository;
@@ -22,7 +23,8 @@ public class LinkService {
         this.linkRepository = linkRepository;
     }
 
-    public String createLink(String url){
+    @Transactional
+    public String createLink(String url, @Nullable User user){
 
         while(true){
             var alias = generateAlias();
@@ -31,7 +33,7 @@ public class LinkService {
                 continue;
 
             try {
-                linkRepository.save(new Link(alias, url));
+                linkRepository.save(new Link(alias, url, user));
                 return alias;
             } catch (DataIntegrityViolationException e){
                 // alias already exists

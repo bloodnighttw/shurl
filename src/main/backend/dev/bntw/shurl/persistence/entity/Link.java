@@ -1,6 +1,7 @@
 package dev.bntw.shurl.persistence.entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,13 @@ public class Link {
     @Column(nullable = false)
     private Date created;
 
-    public Link(String alias, String url) {
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User auth;
+
+    public Link(String alias, String url, @Nullable User auth) {
         this.alias = alias;
         this.url = url;
+        this.auth = auth;
     }
 
     @PrePersist

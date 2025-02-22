@@ -2,7 +2,9 @@ package dev.bntw.shurl.api;
 
 import dev.bntw.shurl.api.request.link.LinkRequest;
 import dev.bntw.shurl.api.response.LinkResponse;
+import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.services.LinkService;
+import dev.bntw.shurl.utils.JwtAuth.OptionalJwtAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +23,9 @@ public class LinkController {
     }
 
     @PostMapping("/create")
-    public LinkResponse createLink(@RequestBody LinkRequest linkRequest){
-        var alias = linkService.createLink(linkRequest.url());
+    @OptionalJwtAuth
+    public LinkResponse createLink(@RequestBody LinkRequest linkRequest, User user){
+        var alias = linkService.createLink(linkRequest.url(),user);
         return new LinkResponse(alias);
     }
 
