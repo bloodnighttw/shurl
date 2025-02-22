@@ -1,6 +1,6 @@
 package dev.bntw.shurl.api;
 
-import dev.bntw.shurl.api.request.link.LoginRequest;
+import dev.bntw.shurl.api.request.auth.LoginRequest;
 import dev.bntw.shurl.api.response.LoginResponse;
 import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.services.AuthService;
