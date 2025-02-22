@@ -1,4 +1,4 @@
-package dev.bntw.shurl.api.request.link;
+package dev.bntw.shurl.api.request.auth;
 
 
 public record LoginRequest(
