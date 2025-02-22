@@ -1,6 +1,8 @@
 package dev.bntw.shurl.utils.JwtAuth;
 
+import dev.bntw.shurl.exception.jwt.InvalidTokenException;
 import dev.bntw.shurl.persistence.entity.User;
+import dev.bntw.shurl.services.JwtService;
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +14,15 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
-public class OptionalAuthMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class OptionalAuthArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final RequiredAuthMethodArgumentResolver requiredAuthHandlerMethodArgumentResolver;
+    private static final String BEARER_PREFIX = "Bearer ";
+
+    private final JwtService jwtService;
 
     @Autowired
-    public OptionalAuthMethodArgumentResolver(RequiredAuthMethodArgumentResolver requiredAuthMethodArgumentResolver) {
-        this.requiredAuthHandlerMethodArgumentResolver = requiredAuthMethodArgumentResolver;
+    public OptionalAuthArgumentResolver(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -29,10 +33,18 @@ public class OptionalAuthMethodArgumentResolver implements HandlerMethodArgument
     @Override
     @Nullable
     public User resolveArgument(@NonNull MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        if(webRequest.getHeader("Authorization") == null){
+        var authorizationHeader = webRequest.getHeader("Authorization");
+
+        if(authorizationHeader == null){
             return null;
         }
 
-        return requiredAuthHandlerMethodArgumentResolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+        if(!authorizationHeader.startsWith(BEARER_PREFIX)){
+            throw new InvalidTokenException("Invalid token prefix");
+        }
+
+        String token = authorizationHeader.substring(BEARER_PREFIX.length());
+
+        return jwtService.parseToken(token);
     }
 }
