@@ -2,11 +2,9 @@ package dev.bntw.shurl.services;
 import dev.bntw.shurl.exception.jwt.InvalidTokenException;
 import dev.bntw.shurl.persistence.entity.User;
 import dev.bntw.shurl.persistence.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,7 @@ import java.time.Instant;
 import java.util.Date;
 
 @Service
+@Slf4j
 public class JwtService {
 
     private final SecretKey secretKey;
@@ -60,8 +59,11 @@ public class JwtService {
         Claims claims;
         try {
             claims =  jwtParser.parseSignedClaims(token).getPayload();
-        } catch (JwtException e) {
-            throw new InvalidTokenException(e.getMessage());
+        } catch (ExpiredJwtException e) {
+            throw new InvalidTokenException("Token expired");
+        } catch (JwtException e){
+            log.error("Invalid token", e);
+            throw new InvalidTokenException("JWT error");
         }
 
         var username = claims.get("username", String.class);
